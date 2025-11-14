@@ -44,7 +44,7 @@ TEST_F(MuxTestbench, Mux1WorksTest)
 
 // New tests
 
-TEST_F(MuxTestbench, Sel0PropagatesFullWidthPattern)
+TEST_F(MuxTestbench, Sel0FullWidthPattern)
 {
     top->sel = 0;
     top->in0 = 0xFEDCBA98;
@@ -55,7 +55,7 @@ TEST_F(MuxTestbench, Sel0PropagatesFullWidthPattern)
     EXPECT_EQ(top->out, 0xFEDCBA98);
 }
 
-TEST_F(MuxTestbench, Sel1PropagatesFullWidthPattern)
+TEST_F(MuxTestbench, Sel1FullWidthPattern)
 {
     top->sel = 1;
     top->in0 = 0xF0F0F0F0;
@@ -66,7 +66,33 @@ TEST_F(MuxTestbench, Sel1PropagatesFullWidthPattern)
     EXPECT_EQ(top->out, 0x0F0F0F0F);
 }
 
+TEST_F(MuxTestbench, ChangingIn1UpdatesOutput)
+{
+    top->sel = 1;
+    top->in0 = 0xFFFFFFFF;
+    top->in1 = 0x00000000;
 
+    top->eval();
+    EXPECT_EQ(top->out, 0x00000000);
+
+    top->in1 = 0x11111111;
+    top->eval();
+    EXPECT_EQ(top->out, 0x11111111);
+}
+
+TEST_F(MuxTestbench, ChangingIn01UpdatesOutput)
+{
+    top->sel = 0;
+    top->in0 = 0xFFFFFFFF;
+    top->in1 = 0x00000000;
+
+    top->eval();
+    EXPECT_EQ(top->out, 0xFFFFFFFF);
+
+    top->in0 = 0x11111111;
+    top->eval();
+    EXPECT_EQ(top->out, 0x11111111);
+}
 
 int main(int argc, char **argv)
 {
