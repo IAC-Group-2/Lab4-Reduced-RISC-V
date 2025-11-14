@@ -42,6 +42,32 @@ TEST_F(MuxTestbench, Mux1WorksTest)
     EXPECT_EQ(top->out, 1);
 }
 
+// New tests
+
+TEST_F(MuxTestbench, Sel0PropagatesFullWidthPattern)
+{
+    top->sel = 0;
+    top->in0 = 0xFEDCBA98;
+    top->in1 = 0x12345678;
+
+    top->eval();
+
+    EXPECT_EQ(top->out, 0xFEDCBA98);
+}
+
+TEST_F(MuxTestbench, Sel1PropagatesFullWidthPattern)
+{
+    top->sel = 1;
+    top->in0 = 0xF0F0F0F0;
+    top->in1 = 0x0F0F0F0F;
+
+    top->eval();
+
+    EXPECT_EQ(top->out, 0x0F0F0F0F);
+}
+
+
+
 int main(int argc, char **argv)
 {
     top = new Vdut;
