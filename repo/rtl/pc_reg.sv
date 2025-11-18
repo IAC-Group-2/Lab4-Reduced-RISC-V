@@ -9,12 +9,16 @@ module pc_reg #(
     output logic [DATA_WIDTH-1:0] PC_out
 
 );
-    logic [DATA_WIDTH-1:0] next_PC;
+
     logic [DATA_WIDTH-1:0] branch_PC;
     logic [DATA_WIDTH-1:0] inc_PC;
     
-branch_PC = next_PC + ImmOp;
-inc_PC    = next_PC + DATA_WIDTH'b100;
+
+always_comb begin
+    branch_PC = PC_out + ImmOp;
+    inc_PC    = PC_out + 'd4;
+end
+
 
 always_ff @(posedge clk, posedge rst) 
     if (rst) 
