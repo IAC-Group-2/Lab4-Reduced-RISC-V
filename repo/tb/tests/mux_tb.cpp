@@ -42,6 +42,98 @@ TEST_F(MuxTestbench, Mux1WorksTest)
     EXPECT_EQ(top->out, 1);
 }
 
+// New tests
+
+TEST_F(MuxTestbench, Sel0FullWidthPattern)
+{
+    top->sel = 0;
+    top->in0 = 0xFEDCBA98;
+    top->in1 = 0x12345678;
+
+    top->eval();
+
+    EXPECT_EQ(top->out, 0xFEDCBA98);
+}
+
+TEST_F(MuxTestbench, Sel1FullWidthPattern)
+{
+    top->sel = 1;
+    top->in0 = 0xF0F0F0F0;
+    top->in1 = 0x0F0F0F0F;
+
+    top->eval();
+
+    EXPECT_EQ(top->out, 0x0F0F0F0F);
+}
+
+TEST_F(MuxTestbench, ChangingIn1UpdatesOutput)
+{
+    top->sel = 1;
+    top->in0 = 0xFFFFFFFF;
+    top->in1 = 0x00000000;
+
+    top->eval();
+    EXPECT_EQ(top->out, 0x00000000);
+
+    top->in1 = 0x11111111;
+    top->eval();
+    EXPECT_EQ(top->out, 0x11111111);
+}
+
+TEST_F(MuxTestbench, ChangingIn01UpdatesOutput)
+{
+    top->sel = 0;
+    top->in0 = 0xFFFFFFFF;
+    top->in1 = 0x00000000;
+
+    top->eval();
+    EXPECT_EQ(top->out, 0xFFFFFFFF);
+
+    top->in0 = 0x11111111;
+    top->eval();
+    EXPECT_EQ(top->out, 0x11111111);
+}
+
+TEST_F(MuxTestbench, ChangingSelUpdatesOutput)
+{
+    top->sel = 1;
+    top->in0 = 0xFFFFFFFF;
+    top->in1 = 0x00000000;
+
+    top->eval();
+    EXPECT_EQ(top->out, 0x00000000);
+
+    top->sel = 0;
+    top->eval();
+    EXPECT_EQ(top->out, 0xFFFFFFFF);
+}
+
+TEST_F(MuxTestbench, UnselectedInputDoesNotAffectOutput)
+{
+    //start with sel = 0, out should follow in0
+    top->sel = 0;
+    top->in0 = 0xAAAAAAAA;
+    top->in1 = 0x00000000;
+
+    top->eval();
+    EXPECT_EQ(top->out, 0xAAAAAAAA);
+
+    //change in1 (unselected), output should remain the same
+    top->in1 = 0xFFFFFFFF;
+    top->eval();
+    EXPECT_EQ(top->out, 0xAAAAAAAA);
+
+    //now sel = 1, out should follow in1
+    top->sel = 1;
+    top->eval();
+    EXPECT_EQ(top->out, 0xFFFFFFFF);
+
+    //change in0 (unselected), output should remain the same
+    top->in0 = 0x12345678;
+    top->eval();
+    EXPECT_EQ(top->out, 0xFFFFFFFF);
+}
+
 int main(int argc, char **argv)
 {
     top = new Vdut;
