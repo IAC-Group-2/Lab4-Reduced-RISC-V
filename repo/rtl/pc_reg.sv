@@ -22,7 +22,7 @@ end
 
 always_ff @(posedge clk, posedge rst) 
     if (rst) 
-        PC_out <= DATA_WIDTH'b0;
+        PC_out <= '0;
     else if (PCsrc) 
         PC_out <= branch_PC;
     else 
