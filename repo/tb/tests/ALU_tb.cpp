@@ -6,7 +6,7 @@
 
 #define TB_NAME ALUTestbench 
 
-Valu *top;
+Vdut *top;
 VerilatedVcdC *tfp;
 unsigned int ticks = 0;
 
@@ -100,7 +100,7 @@ TEST_F(TB_NAME, DefaultCaseTest)
 
 int main(int argc, char **argv)
 {
-    top = new Valu;
+    top = new Vdut;
     tfp = new VerilatedVcdC;
 
     Verilated::traceEverOn(true);
