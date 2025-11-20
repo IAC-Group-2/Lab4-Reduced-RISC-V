@@ -1,7 +1,7 @@
 module ALU #(
     DATA_WIDTH = 32
 ) (
-    input   logic [DATA_WIDTH-1:0]  in0 ,
+    input   logic [DATA_WIDTH-1:0]  in0,
     input   logic [DATA_WIDTH-1:0]  in1,
     input   logic [2:0]             ctrl,
     output  logic [DATA_WIDTH-1:0]  out,
