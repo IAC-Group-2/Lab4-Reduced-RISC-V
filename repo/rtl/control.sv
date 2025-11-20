@@ -18,7 +18,7 @@ always_comb begin
     branch = 0;
 
     case (op) 
-    7'b0010011 begin // addi
+    7'b0010011: begin // addi
         RegWrite = 1;
         ALUctrl = 3'b0; // add
         ALUsrc = 1; // immediate
@@ -26,12 +26,19 @@ always_comb begin
         branch = 0;    
     end
 
-    7'b1100011 begin // bne
+    7'b1100011: begin // bne
         RegWrite = 0;
         ALUctrl = 3'b1; // sub
         ALUsrc = 0; // reg
         Immsrc = 1; // B type
         branch = 1; // ben 
+    end
+    default: begin
+        RegWrite = 0;
+        ALUctrl = 3'b0;
+        ALUsrc = 0;
+        Immsrc = 0;
+        branch = 0;
     end
     endcase
     
