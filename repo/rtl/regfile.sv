@@ -24,5 +24,5 @@ module regfile #(
     //read commands
     assign rd1 = mem[ad1];
     assign rd2 = mem[ad2];
-    assign a0 = mem[0];
+    assign a0 = mem[10];
 endmodule
