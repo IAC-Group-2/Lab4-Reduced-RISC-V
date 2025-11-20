@@ -1,12 +1,8 @@
-/*
- *  TEST BENCH COPY CODE 
- */
-
 #include "base_testbench.h"
 
 #define TB_NAME ControlTestbench
 
-Vcontrol *top;
+Vdut *top;
 VerilatedVcdC *tfp;
 unsigned int ticks = 0;
 
@@ -19,7 +15,6 @@ protected:
         top->eq = 0;
     }
 
-    // no clock needed, purely combinational module
 };
 
 
