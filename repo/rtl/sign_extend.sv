@@ -1,3 +1,4 @@
+/* verilator lint_off UNUSED */
 module sign_extend #(
     parameter DATA_WIDTH = 32
 )(
@@ -24,3 +25,5 @@ always_comb begin
 end
 
 endmodule
+/* verilator lint_on UNUSED */
+
